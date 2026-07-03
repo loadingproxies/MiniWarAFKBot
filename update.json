@@ -1,6 +1,6 @@
 {
-  "version": "1.2.0",
-  "url": "https://github.com/loadingproxies/MiniWarAFKBot/releases/download/v1.2.0/MiniWarAFKBot-v1.2.0-win64.zip",
-  "page_url": "https://github.com/loadingproxies/MiniWarAFKBot/releases/tag/v1.2.0",
-  "notes": "Multi-language UI (Auto/French/DE/ES/PT), OCR bundle fix for fresh installs, stricter restock banner detection, auto-run shop check when banner appears, Start MiniWar Bot.bat setup helper."
+  "version": "1.2.1",
+  "url": "https://github.com/loadingproxies/MiniWarAFKBot/releases/latest/download/MiniWarAFKBot-win64.zip",
+  "page_url": "https://github.com/loadingproxies/MiniWarAFKBot/releases/tag/v1.2.1",
+  "notes": "Startup splash with logo, in-app Guide, stable auto-update URL"
 }
