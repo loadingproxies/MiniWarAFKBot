@@ -30,12 +30,15 @@ The bot uses **screen capture and normal mouse/keyboard input only** — like an
 
 ## Quick start (Windows .exe)
 
-1. Download the latest **`MiniWarAFKBot-vX.X.X-win64.zip`** from [Releases](https://github.com/loadingproxies/MiniWarAFKBot/releases) and extract it.
-2. Open the folder and double-click **`MiniWarAFKBot.exe`**.
-3. Set up Roblox as described in [In-game setup](#in-game-setup).
-4. In the launcher, pick your wishlist items and leave **Test mode** on for your first run.
-5. Stand next to the shop NPC in Mini War, then click **Start Bot**.
-6. When you are confident it behaves correctly, switch to **Live mode** in Settings.
+1. Download the latest **`MiniWarAFKBot-vX.X.X-win64.zip`** from [Releases](https://github.com/loadingproxies/MiniWarAFKBot/releases).
+2. **Unblock the zip** before extracting (right-click zip → **Properties** → check **Unblock** at the bottom → OK). See [Downloaded zip blocked?](#downloaded-zip-blocked-windows).
+3. Extract the zip. **`MiniWarAFKBot.exe`** must stay in the same folder as **`_internal`**.
+4. If this is a **fresh PC**, install the [Windows runtimes](#windows-exe-runtimes) below.
+5. Double-click **`MiniWarAFKBot.exe`**.
+6. Set up Roblox as described in [In-game setup](#in-game-setup).
+7. In the launcher, pick your wishlist items and leave **Test mode** on for your first run.
+8. Stand next to the shop NPC in Mini War, then click **Start Bot**.
+9. When you are confident it behaves correctly, switch to **Live mode** in Settings.
 
 > **First launch:** The OCR engine downloads its language model once (~100 MB). An internet connection is required that one time.
 
@@ -45,12 +48,57 @@ The bot uses **screen capture and normal mouse/keyboard input only** — like an
 
 | Requirement | Details |
 |-------------|---------|
-| **OS** | Windows 10 or Windows 11 |
+| **OS** | Windows 10 or Windows 11 (**64-bit**) |
+| **.NET 8 Desktop Runtime (x64)** | Required for the launcher GUI — see [Windows exe runtimes](#windows-exe-runtimes) |
+| **WebView2 Runtime** | Required for the launcher window — see [Windows exe runtimes](#windows-exe-runtimes) |
 | **Roblox** | Mini War, **Windowed** mode (not Exclusive Fullscreen) |
 | **Position** | Character standing at the shop vendor (so **E** opens the shop) |
 | **Display** | Game window visible and not fully covered by other apps while the bot runs |
 
 For running from Python source, see [Running from source](#running-from-source-developers).
+
+### Windows exe runtimes
+
+The **`MiniWarAFKBot.exe`** launcher uses a web-based UI (pywebview). On first run it will:
+
+1. **Unblock** files in the install folder (fixes downloaded-zips from GitHub).
+2. **Auto-install** missing runtimes via **winget** when available (.NET 8 Desktop + WebView2).
+3. If winget cannot install them, open the download pages and show a short setup message.
+
+On a clean PC you may still need to install manually once:
+
+1. **[.NET 8 Desktop Runtime — Windows x64](https://dotnet.microsoft.com/download/dotnet/8.0)**  
+   On the download page, under **Run desktop apps** / **Desktop Runtime**, choose **Windows → x64** (not the SDK).  
+   Restart your PC after installing.
+
+2. **[Microsoft Edge WebView2 Runtime](https://go.microsoft.com/fwlink/p/?LinkId=2124703)**  
+   Install the Evergreen bootstrapper. Windows 11 often has this already; many Windows 10 PCs do not.
+
+Extract the release zip so **`MiniWarAFKBot.exe`** sits in the same folder as **`_internal`** — do not copy only the exe.
+
+If the exe crashes on startup with **`Python.Runtime.Loader.Initialize`**, try in order:
+
+1. [Unblock the downloaded zip](#downloaded-zip-blocked-windows) and extract again (most common fix).
+2. Install **.NET 8 Desktop Runtime (x64)** and restart.
+3. Add the folder to your antivirus allow list.
+
+### Downloaded zip blocked? (Windows)
+
+Files downloaded from GitHub/Discord are often **marked as from the internet**. Windows can block **`Python.Runtime.dll`** inside `_internal`, which causes exactly:
+
+`Failed to resolve Python.Runtime.Loader.Initialize`
+
+**Fix (do this before extracting):**
+
+1. **Delete** any folder you already extracted.
+2. Right-click the **`.zip`** file → **Properties**.
+3. At the bottom, check **Unblock** → **OK**.
+4. **Extract all** again and run **`MiniWarAFKBot.exe`**.
+
+**Or** after extracting, unblock the DLL:  
+`_internal\pythonnet\runtime\Python.Runtime.dll` → Properties → **Unblock**.
+
+Why it works on the developer's PC: a **local build** is not downloaded, so Windows does not block those DLLs.
 
 ---
 
@@ -64,6 +112,8 @@ Before starting the bot:
 4. Recommended:
    - Enable **Low Performance**
    - Disable **Alliances** (reduces UI noise for OCR)
+
+**Game language:** The bot supports **English, French, German, Spanish, Portuguese**, and **Auto** (all at once — default). In the launcher go to **Settings → Game UI language**. Wishlist names stay in English in the UI; the bot maps translated in-game names (e.g. *Forteresse aérienne* → Air Fortress) automatically.
 
 Stand next to the shop NPC. The bot presses **E** to open the vendor when a restock is detected.
 
@@ -269,11 +319,13 @@ Coordinates in `config.json` are **fractions (0–1)** of the Roblox client area
 | Problem | What to try |
 |---------|-------------|
 | **Bot does not start / no window** | Roblox must be open in Windowed mode with title containing "Roblox". |
+| **Game in French / other language** | Settings → **Game UI language** → **Auto** (default) or pick your language. Restart the bot after saving. |
 | **Restock not detected** | Stand at vendor; ensure banner region is visible; check Low Performance mode. |
 | **Wrong items or "stock unclear"** | Run in Test mode; check activity feed; enable debug screenshots temporarily. |
 | **Buys not confirmed (0/N)** | Enable **Verify purchases**; ensure sufficient in-game funds. |
 | **Shop scroll takes too long** | Enable **Wishlist scroll only**; reduce wishlist to items you actually want. |
-| **Launcher will not open** | Run from extracted folder (not inside zip); allow through antivirus if blocked. |
+| **Launcher will not open** | Extract the full zip (`_internal` must be next to the exe). Install [.NET 8 Desktop Runtime x64](#windows-exe-runtimes) and [WebView2](#windows-exe-runtimes); restart PC. Allow the folder through antivirus. |
+| **`Python.Runtime.Loader.Initialize` error** | **1)** [Unblock the zip](#downloaded-zip-blocked-windows) before extract, delete old folder, extract again. **2)** Install [.NET 8 Desktop Runtime x64](#windows-exe-runtimes) + restart. **3)** Antivirus exception for the bot folder. |
 | **Discord not posting** | Verify webhook URL, enable Discord in Settings, check notify toggles. |
 
 Press **F7** or use **Stop** in the launcher to halt the bot immediately.

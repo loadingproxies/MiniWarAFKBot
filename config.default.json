@@ -1,0 +1,301 @@
+{
+  "window": {
+    "title_contains": "Roblox",
+    "class_name": "WINDOWSCLIENT"
+  },
+  "_comment_coords": "Button coords [fx,fy] and regions [fx,fy,fw,fh] are FRACTIONS (0..1) of the Roblox window client area. Re-calibrate with: python tools/calibrate.py",
+  "buttons": {
+    "buy": [
+      0.3359,
+      0.0606
+    ],
+    "tab_factory": [
+      0.3234,
+      0.3156
+    ],
+    "tab_houses": [
+      0.4477,
+      0.3156
+    ],
+    "tab_military": [
+      0.5699,
+      0.317
+    ],
+    "tab_special": [
+      0.6883,
+      0.3156
+    ],
+    "close_x": [
+      0.7234,
+      0.2148
+    ],
+    "country": [
+      0.5027,
+      0.0606
+    ]
+  },
+  "regions": {
+    "refill_banner": [
+      0.3,
+      0.15,
+      0.4,
+      0.2
+    ],
+    "banner_text": [
+      0.3,
+      0.17,
+      0.4,
+      0.06
+    ],
+    "banner_center": [
+      0.12,
+      0.22,
+      0.76,
+      0.38
+    ],
+    "banner_stack": [
+      0.18,
+      0.28,
+      0.64,
+      0.28
+    ],
+    "shop_window": [
+      0.2523,
+      0.168,
+      0.4984,
+      0.6523
+    ],
+    "item_list": [
+      0.2547,
+      0.3652,
+      0.4875,
+      0.4536
+    ]
+  },
+  "colors": {
+    "refill_green_hsv_low": [
+      40,
+      200,
+      200
+    ],
+    "refill_green_hsv_high": [
+      80,
+      255,
+      255
+    ],
+    "refill_min_pixels": 300,
+    "refill_max_fraction": 0.7
+  },
+  "timings": {
+    "watch_interval_sec": 0.5,
+    "after_tab_sec": 1.0,
+    "cooldown_after_check_sec": 50.0,
+    "e_press_hold_sec": 0.9,
+    "banner_confirm_interval_sec": 1.5
+  },
+  "navigation": {
+    "categories": [
+      "factory",
+      "military"
+    ],
+    "e_delay_after_buy_sec": 1.5,
+    "e_retries": 3,
+    "start_skip_notches": {
+      "factory": 18,
+      "houses": 8,
+      "military": 8,
+      "special": 0
+    },
+    "start_skip_ref_height": 1009,
+    "scroll_read_pause": 0.03,
+    "wheel_notches_read": 5,
+    "wheel_notch_delay_sec": 0.008,
+    "scroll_ocr_upscale": 1.75,
+    "scroll_after_found": 2,
+    "wishlist_scroll_only": true,
+    "vendor_mode": false,
+    "vendor_soft_focus": true,
+    "_comment_vendor_soft": "When true (default), vendor mode only runs when Roblox is already focused — won't pull focus from your browser.",
+    "_comment_vendor": "vendor_mode: stand at shop NPC — watch restock banner, E to open, scan, X to close. Skips Buy button and Country return. vendor_poll_sec: optional extra timer poll (null = banner only).",
+    "vendor_poll_sec": null,
+    "post_check_action": {
+      "type": "button",
+      "value": "country"
+    },
+    "return_settle_sec": 1.5
+  },
+  "game": {
+    "_comment": "Game UI language. auto = all supported languages (recommended). Or set en/fr/de/es/pt to match Roblox.",
+    "locale": "auto"
+  },
+  "ocr": {
+    "_comment": "OCR model: auto follows game.locale (latin for most languages, en for English). Override with en/latin if needed.",
+    "lang_type": "auto",
+    "upscale": 2.0,
+    "min_confidence": 0.3,
+    "num_threads": "auto"
+  },
+  "buy": {
+    "_comment": "Auto-buy with the green in-shop money button. dry_run=true only logs what it WOULD buy (safe for testing). max_per_item=0 -> buy the whole stock. Edit items[] to choose what to buy.",
+    "enabled": true,
+    "dry_run": true,
+    "max_per_item": 1,
+    "_comment_budget": "max_total_per_restock caps how many units (across ALL categories) can be bought in one restock cycle. 0 = unlimited. Combine with priority/category_priority so the cap is spent on what you want most.",
+    "max_total_per_restock": 0,
+    "_comment_priority": "Optional. Overrides items[]'s order as the buy priority within a category (first = bought first when budget/stock is limited). Omit a category to just use its items[] order.",
+    "priority": {
+      "factory": [],
+      "houses": [],
+      "military": [],
+      "special": []
+    },
+    "_comment_category_priority": "Optional. Order categories are attempted in (e.g. spend the shared budget on Military before Factory). Omit to use navigation.categories order.",
+    "category_priority": [],
+    "items": {
+      "factory": [],
+      "houses": [],
+      "military": [],
+      "special": []
+    },
+    "_comment_verify": "verify_purchases: after each click, re-reads the item's stock number and only counts the click as 'confirmed' if it actually dropped — catches clicks that silently did nothing. Costs one extra OCR per click, so it's off by default.",
+    "verify_purchases": true,
+    "verify_wait_sec": 0.6,
+    "verify_poll_sec": 0.4,
+    "verify_retries": 5,
+    "_comment_disabled_button": "Optional. HSV range for the button's DISABLED/greyed-out look (shown when you can't afford an item), separate from button_hsv_low/high (the normal green). Lets the bot report 'insufficient funds' instead of guessing 'sold out'. Leave null until you calibrate it against a real screenshot of an unaffordable item — an unconfirmed guess here will misreport, which is worse than the default sold-out fallback.",
+    "button_disabled_hsv_low": [
+      0,
+      0,
+      70
+    ],
+    "button_disabled_hsv_high": [
+      180,
+      80,
+      200
+    ],
+    "button_hsv_low": [
+      40,
+      120,
+      180
+    ],
+    "button_hsv_high": [
+      75,
+      255,
+      255
+    ],
+    "right_fraction": 0.58,
+    "max_pages": 6,
+    "click_delay_sec": 0.5
+  },
+  "report": {
+    "_comment": "items: a per-category whitelist the reader uses for an early-stop while scrolling (find these highest-value items faster).",
+    "items": {
+      "factory": [
+        "Uranium Cave",
+        "Nuclear Reactor",
+        "Data Center",
+        "Blackhole Generator",
+        "Antimatter Reactor",
+        "Area 51 Lab",
+        "Quantum Core Generator",
+        "Supernova Accelerator"
+      ],
+      "houses": [
+        "The Manor",
+        "Hotel",
+        "Giant Skyscraper",
+        "Double Turbo Tower",
+        "Grand Hotel"
+      ],
+      "military": [
+        "General's Base",
+        "Air Base",
+        "Artillery Depot",
+        "Rocket Bunker",
+        "Mech Station",
+        "Spider Base",
+        "Air Fortress"
+      ]
+    }
+  },
+  "discord": {
+    "enabled": false,
+    "webhook_url": "",
+    "notify_restock": true,
+    "notify_buy": true,
+    "notify_error": true,
+    "notify_scan": true,
+    "notify_wishlist_in_stock_only": false,
+    "mention": ""
+  },
+  "ui": {
+    "mini_overlay": true,
+    "tray_on_run": true
+  },
+  "alerts": {
+    "sound": true,
+    "desktop": true
+  },
+  "debug": {
+    "save_screenshots": false,
+    "dir": "debug"
+  },
+  "logs": {
+    "_comment": "cleanup_on_stop wipes logs/ and screenshots when you stop the bot. Toggle off in Settings → Advanced when debugging.",
+    "cleanup_on_stop": true
+  },
+  "update": {
+    "_comment": "Host update.json (see update.json.example) on GitHub raw or your server. Clients check on launch.",
+    "enabled": true,
+    "check_on_start": true,
+    "manifest_url": "https://raw.githubusercontent.com/loadingproxies/MiniWarAFKBot/main/update.json"
+  },
+  "events": {
+    "_comment": "Full game-screen screenshot on each restock -> events folder. keep = how many newest to retain.",
+    "enabled": true,
+    "keep": 50,
+    "dir": "events"
+  },
+  "timed_screenshots": {
+    "_comment": "Screenshot the game screen every period_sec (and again extra_offset_sec later), from launch -> dir folder.",
+    "enabled": false,
+    "dir": "timed",
+    "period_sec": 270,
+    "extra_offset_sec": 30
+  },
+  "catalog": {
+    "factory": {
+      "Gold Cave": "Epic",
+      "Bank": "Epic",
+      "Research Labs": "Legendary",
+      "Diamond Cave": "Legendary",
+      "Uranium Cave": "Mythic",
+      "Nuclear Reactor": "Mythic",
+      "Data Center": "Mythic",
+      "Blackhole Generator": "Secret",
+      "Antimatter Reactor": "Secret",
+      "Area 51 Lab": "Secret",
+      "Quantum Core Generator": "Divine",
+      "Supernova Accelerator": "Divine"
+    },
+    "houses": {
+      "Helix Tower": "Legendary",
+      "The Manor": "Mythic",
+      "Hotel": "Mythic",
+      "Giant Skyscraper": "Secret",
+      "Double Turbo Tower": "Secret",
+      "Grand Hotel": "Divine"
+    },
+    "military": {
+      "Missile Launcher": "Legendary",
+      "Military Hospital": "Legendary",
+      "General's Base": "Mythic",
+      "Air Base": "Mythic",
+      "Artillery Depot": "Mythic",
+      "Rocket Bunker": "Secret",
+      "Mech Station": "Secret",
+      "Spider Base": "Secret",
+      "Air Fortress": "Divine"
+    }
+  }
+}
